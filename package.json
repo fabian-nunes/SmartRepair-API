@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.5.0",
+    "nodemon": "^2.0.19"
+  },
+  "name": "smart-repair",
+  "description": "Repository for a dummy project to prefect skills in creating a REST API with node and mongodb to communicate with a SPA made in VUE.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fabian-nunes/SmartRepair-API.git"
+  },
+  "author": "Fabian Nunes",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/fabian-nunes/SmartRepair-API/issues"
+  },
+  "homepage": "https://github.com/fabian-nunes/SmartRepair-API#readme"
+}
