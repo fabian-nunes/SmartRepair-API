@@ -11,9 +11,11 @@ app.use(bodyParser.json());
 
 //Import Routes
 const repairsRoute = require('./routes/repairs');
+const clientRoute = require('./routes/clients');
 
 //Middlewares
 app.use('/repairs', repairsRoute);
+app.use('/clients', clientRoute);
 
 //Routes
 app.get('/', (req, res) => {

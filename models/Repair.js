@@ -21,6 +21,10 @@ RepairSchema = new mongoose.Schema({
     status: {
         type: Number,
         default: 0
+    },
+    client: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Client'
     }
 });
 
