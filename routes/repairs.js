@@ -9,6 +9,8 @@ router.get('/', RepairController.all);
 //Get repair by id
 router.get('/:id', RepairController.find);
 
+router.get('/status/:status', RepairController.getByStatus);
+
 //Create a new repair
 router.post('/', RepairController.create);
 

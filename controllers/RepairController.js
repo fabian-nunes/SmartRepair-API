@@ -5,6 +5,7 @@ const RepairController = {
     all: async (req, res) => {
         try {
             const repairs = await Repair.find().populate('client');
+            //console.log(Object.keys(repairs).length);
             res.json(repairs);
         } catch (err) {
             res.status(500).send(err);
@@ -14,6 +15,14 @@ const RepairController = {
         try {
             const repair = await Repair.findById(req.params.id);
             res.json(repair);
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    },
+    getByStatus: async (req, res) => {
+        try {
+            const repairs = await Repair.find({ status: req.params.status }).populate('client');
+            res.json(repairs);
         } catch (err) {
             res.status(500).send(err);
         }
