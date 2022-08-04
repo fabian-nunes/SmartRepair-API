@@ -72,8 +72,39 @@ const ClientController = {
     },
     update: async (req, res) => {
         try {
-            const updatedClient = await Client.updateOne({ _id: req.params.id }, { $set: req.body });
-            res.json(updatedClient);
+            const client = await Client.findById(req.params.id);
+
+            if(client !== null) {
+                const email = await Client.findOne({email: req.body.email});
+                if(client.email !== req.body.email && email !== null) {
+                    res.statusMessage = "Email already exists associated with a client";
+                    res.status(409).send();
+                } else {
+                    const phone = await Client.findOne({phone: req.body.phone});
+                    if(client.phone !== req.body.phone && phone !== null) {
+                        res.statusMessage = "Phone number already exists associated with a client";
+                        res.status(409).send();
+                    } else {
+                        if (isNaN(req.body.phone)) {
+                            res.statusMessage = "Phone number must be a number";
+                            res.status(400).send();
+                        } else {
+                            if (req.body.phone.length !== 9) {
+                                res.statusMessage = "Phone number must be 9 digits";
+                                res.status(400).send();
+                            } else {
+                                const updatedClient = await Client.updateOne({ _id: req.params.id }, { $set: req.body });
+                                res.json(updatedClient);
+                            }
+                        }
+
+                    }
+                }
+            } else {
+                res.statusMessage = "Client not found";
+                res.status(404).send();
+            }
+
         } catch (err) {
             res.status(500).send(err);
         }
