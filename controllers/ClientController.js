@@ -64,8 +64,14 @@ const ClientController = {
     },
     delete: async (req, res) => {
         try {
-            const deletedClient = await Client.remove({ _id: req.params.id });
-            res.json(deletedClient);
+            const client = await Client.findById(req.params.id);
+            if (!client) {
+                res.statusMessage = "Client not found";
+                res.status(404).send();
+            } else {
+                const deletedClient = await Client.remove({ _id: req.params.id });
+                res.json(deletedClient);
+            }
         } catch (err) {
             res.status(500).send(err);
         }
