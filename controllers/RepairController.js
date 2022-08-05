@@ -27,19 +27,44 @@ const RepairController = {
         }
     },
     create: async (req, res) => {
-        const repair = new Repair({
-            name: req.body.name,
-            description: req.body.description,
-            price: req.body.price,
-            client: req.body.client,
-        });
-
         try {
-            const savedRepair = await repair.save();
             const client = await Client.findById(req.body.client);
-            client.repairs.push(savedRepair._id);
-            client.save();
-            res.json(savedRepair);
+            if (client == null) {
+                res.statusMessage = "Client not found";
+                res.status(404).send();
+            } else {
+                if (req.body.name == null || req.body.name === "") {
+                    res.statusMessage = "Name is required";
+                    res.status(400).send();
+                } else {
+                    if (req.body.price == null || req.body.price === "") {
+                        res.statusMessage = "Price is required";
+                        res.status(400).send();
+                    } else {
+                        if (typeof req.body.price !== "string") {
+                            res.statusMessage = "Price must be a number";
+                            res.status(400).send();
+                        } else {
+                            if (!isNaN(req.body.price) && !isNaN(parseFloat(req.body.price))) {
+                                const repair = new Repair({
+                                    name: req.body.name,
+                                    description: req.body.description,
+                                    price: req.body.price,
+                                    client: req.body.client,
+                                });
+
+                                const savedRepair = await repair.save();
+                                client.repairs.push(savedRepair._id);
+                                client.save();
+                                res.json(savedRepair);
+                            } else {
+                                res.statusMessage = "Price must be a number";
+                                res.status(400).send();
+                            }
+                        }
+                    }
+                }
+            }
         } catch (err) {
             res.status(500).send(err);
         }

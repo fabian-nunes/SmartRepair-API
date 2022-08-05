@@ -7,10 +7,10 @@ RepairSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        required: true
+        required: false
     },
     price: {
-        type: Number,
+        type: String,
         required: true
     },
     dateStart: {
