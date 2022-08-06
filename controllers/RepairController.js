@@ -79,8 +79,39 @@ const RepairController = {
     },
     update: async (req, res) => {
         try {
-            const updatedRepair = await Repair.updateOne({ _id: req.params.id }, { $set: req.body });
-            res.json(updatedRepair);
+            const repair = await Repair.findById(req.params.id);
+            if (repair == null) {
+                res.statusMessage = "Repair not found";
+                res.status(404).send();
+            } else {
+                if (repair.status !== 0) {
+                    res.statusMessage = "Repair can't be updated";
+                    res.status(400).send();
+                } else {
+                    if (req.body.name == null || req.body.name === "") {
+                        res.statusMessage = "Name is required";
+                        res.status(400).send();
+                    } else {
+                        if (req.body.price == null || req.body.price === "") {
+                            res.statusMessage = "Price is required";
+                            res.status(400).send();
+                        } else {
+                            if (typeof req.body.price !== "string") {
+                                res.statusMessage = "Price must be a number";
+                                res.status(400).send();
+                            } else {
+                                if (!isNaN(req.body.price) && !isNaN(parseFloat(req.body.price))) {
+                                    const updatedRepair = await Repair.updateOne({ _id: req.params.id }, { $set: req.body });
+                                    res.json(updatedRepair);
+                                } else {
+                                    res.statusMessage = "Price must be a number";
+                                    res.status(400).send();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         } catch (err) {
             res.status(500).send(err);
         }
