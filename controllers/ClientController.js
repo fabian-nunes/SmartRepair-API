@@ -3,6 +3,7 @@ const Client = require('../models/Client');
 const ClientController = {
     all: async (req, res) => {
         try {
+            console.log(req.user);
             //console.log(await Client.findOne({email: 'binogamer12@gmail.com'}));
             const clients = await Client.find().populate('repairs');
            // console.log(clients[0].repairs.length);

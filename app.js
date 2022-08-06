@@ -1,19 +1,22 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+//const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
 
 app.use(cors())
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
+app.use(express.json());
 
 //Import Routes
+const authRoute = require('./routes/auth');
 const repairsRoute = require('./routes/repairs');
 const clientRoute = require('./routes/clients');
 
 //Middlewares
+app.use('/auth', authRoute);
 app.use('/repairs', repairsRoute);
 app.use('/clients', clientRoute);
 

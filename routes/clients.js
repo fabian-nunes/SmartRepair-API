@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const Client = require('../models/Client');
 const ClientController = require('../controllers/ClientController');
 
+const verify = require('../routes/verifyToken');
+
 //Get all repairs
-router.get('/', ClientController.all);
+router.get('/', verify, ClientController.all);
 
 //Get repair by id
 router.get('/:id', ClientController.find);

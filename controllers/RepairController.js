@@ -141,8 +141,13 @@ const RepairController = {
                             res.statusMessage = "Invalid status";
                             res.status(400).send();
                         } else {
-                            const updatedRepair = await Repair.updateOne({ _id: req.params.id }, { $set: { status: req.body.status } });
-                            res.json(updatedRepair);
+                            if (req.body.status !== 3) {
+                                const updatedRepair = await Repair.updateOne({ _id: req.params.id }, { $set: { status: req.body.status, dateEnd: Date.now() } });
+                                res.json(updatedRepair);
+                            } else {
+                                const updatedRepair = await Repair.updateOne({ _id: req.params.id }, { $set: { status: req.body.status } });
+                                res.json(updatedRepair);
+                            }
                         }
                     }
                 }
