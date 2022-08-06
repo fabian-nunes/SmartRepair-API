@@ -84,7 +84,36 @@ const RepairController = {
         } catch (err) {
             res.status(500).send(err);
         }
-    }
+    },
+    updateStatus: async (req, res) => {
+        try {
+            const repair = await Repair.findById(req.params.id);
+            if (repair == null) {
+                res.statusMessage = "Repair not found";
+                res.status(404).send();
+            } else {
+                if (req.body.status == null || req.body.status === "") {
+                    res.statusMessage = "Status is required";
+                    res.status(400).send();
+                } else {
+                    if (typeof req.body.status !== "number") {
+                        res.statusMessage = "Status must be a number";
+                        res.status(400).send();
+                    } else {
+                        if (req.body.status !== 0 && req.body.status !== 1 && req.body.status !== 2 && req.body.status !== 3) {
+                            res.statusMessage = "Invalid status";
+                            res.status(400).send();
+                        } else {
+                            const updatedRepair = await Repair.updateOne({ _id: req.params.id }, { $set: { status: req.body.status } });
+                            res.json(updatedRepair);
+                        }
+                    }
+                }
+            }
+        } catch (err) {
+            res.status(500).send(err);
+        }
+    },
 }
 
 module.exports = RepairController;

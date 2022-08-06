@@ -20,4 +20,6 @@ router.delete('/:id', RepairController.delete);
 //Update a repair
 router.patch('/:id', RepairController.update);
 
+router.patch('/status/:id', RepairController.updateStatus);
+
 module.exports = router;
