@@ -71,8 +71,14 @@ const RepairController = {
     },
     delete: async (req, res) => {
         try {
-            const deletedRepair = await Repair.remove({ _id: req.params.id });
-            res.json(deletedRepair);
+            const repair = await Repair.findById(req.params.id);
+            if (!repair) {
+                res.statusMessage = "Repair not found";
+                res.status(404).send();
+            } else {
+                const deletedRepair = await Repair.remove({ _id: req.params.id });
+                res.json(deletedRepair);
+            }
         } catch (err) {
             res.status(500).send(err);
         }
