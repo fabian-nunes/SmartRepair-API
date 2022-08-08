@@ -77,6 +77,9 @@ const RepairController = {
                 res.status(404).send();
             } else {
                 const deletedRepair = await Repair.remove({ _id: req.params.id });
+                const client = await Client.findById(repair.client);
+                client.repairs.splice(client.repairs.indexOf(req.params.id), 1);
+                client.save();
                 res.json(deletedRepair);
             }
         } catch (err) {

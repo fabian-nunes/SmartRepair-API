@@ -1,4 +1,5 @@
 const Client = require('../models/Client');
+const Repair = require('../models/Repair');
 
 const ClientController = {
     all: async (req, res) => {
@@ -70,6 +71,7 @@ const ClientController = {
                 res.statusMessage = "Client not found";
                 res.status(404).send();
             } else {
+                await Repair.deleteMany({client: req.params.id});
                 const deletedClient = await Client.remove({ _id: req.params.id });
                 res.json(deletedClient);
             }
