@@ -1,25 +1,27 @@
 const express = require('express');
 const router = express.Router();
-const Repair = require('../models/Repair');
+require('../models/Repair');
 const RepairController = require('../controllers/RepairController');
 
+const verify = require('../routes/verifyToken');
+
 //Get all repairs
-router.get('/', RepairController.all);
+router.get('/', verify, RepairController.all);
 
 //Get repair by id
-router.get('/:id', RepairController.find);
+router.get('/:id', verify, RepairController.find);
 
-router.get('/status/:status', RepairController.getByStatus);
+router.get('/status/:status', verify, RepairController.getByStatus);
 
 //Create a new repair
-router.post('/', RepairController.create);
+router.post('/', verify, RepairController.create);
 
 //Delete a repair
-router.delete('/:id', RepairController.delete);
+router.delete('/:id', verify, RepairController.delete);
 
 //Update a repair
-router.patch('/:id', RepairController.update);
+router.patch('/:id', verify, RepairController.update);
 
-router.patch('/status/:id', RepairController.updateStatus);
+router.patch('/status/:id', verify, RepairController.updateStatus);
 
 module.exports = router;

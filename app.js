@@ -6,7 +6,9 @@ require('dotenv').config();
 
 const app = express();
 
-app.use(cors())
+app.use(cors({
+    exposedHeaders: ['auth-token'],
+}))
 //app.use(bodyParser.json());
 app.use(express.json());
 
@@ -16,9 +18,9 @@ const repairsRoute = require('./routes/repairs');
 const clientRoute = require('./routes/clients');
 
 //Middlewares
-app.use('/auth', authRoute);
-app.use('/repairs', repairsRoute);
-app.use('/clients', clientRoute);
+app.use('/api/auth', authRoute);
+app.use('/api/repairs', repairsRoute);
+app.use('/api/clients', clientRoute);
 
 //Routes
 app.get('/', (req, res) => {

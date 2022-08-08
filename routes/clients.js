@@ -8,15 +8,15 @@ const verify = require('../routes/verifyToken');
 router.get('/', verify, ClientController.all);
 
 //Get repair by id
-router.get('/:id', ClientController.find);
+router.get('/:id', verify, ClientController.find);
 
 //Create a new repair
-router.post('/', ClientController.create);
+router.post('/', verify, ClientController.create);
 
 //Delete a repair
-router.delete('/:id', ClientController.delete);
+router.delete('/:id', verify, ClientController.delete);
 
 //Update a repair
-router.patch('/:id', ClientController.update);
+router.patch('/:id', verify, ClientController.update);
 
 module.exports = router;
